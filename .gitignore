@@ -20,3 +20,7 @@ venv/
 .env/
 .env.bak/
 .venv/
+
+# only ipynb in notebooks
+notebooks/*
+!notebooks/*.ipynb
