@@ -1,0 +1,22 @@
+# Jupyter notebooks metadata
+.ipynb_checkpoints/
+
+# Quarto build output (if applicable)
+_quarto/
+
+
+# Python egg and build artifacts
+*.egg-info/
+*.egg
+*.egg-link
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.env/
+.env.bak/
+.venv/
