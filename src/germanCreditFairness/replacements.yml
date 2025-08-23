@@ -1,0 +1,139 @@
+# checking status
+negativeNonePositive:
+  "<0": "negative"
+  "0<=X<200": "positive"
+  "no checking": "none"
+  ">=200": "positive"
+
+# duration
+
+# credit history
+
+creditNoCredit:
+  "all paid": "credit"
+  "critical/other existing credit": "credit"
+  "delayed previously": "credit"
+  "existing paid": "credit"
+  "no credits/all paid": "no_credit"
+
+  goodBad:
+  "all paid": "good"
+  "critical/other existing credit": "bad"
+  "delayed previously": "bad"
+  "existing paid": "good"
+  "no credits/all paid": "bad"
+
+# purpose
+
+carEducBusinessOther:
+  "radio/tv": "other"
+  "education": "eductation"
+  "furniture/equiptment": "other"
+  "new car": "car"
+  "used car": "car"
+  "business": "business"
+  "domestic appliance": "other"
+  "repairs": "other"
+  "retraining": "education"
+  "other": "other"
+
+educBusinessOther:
+  "radio/tv": "other"
+  "education": "eductation"
+  "furniture/equiptment": "other"
+  "new car": "car"
+  "used car": "car"
+  "business": "business"
+  "domestic appliance": "other"
+  "repairs": "other"
+  "retraining": "education"
+  "other": "other"
+
+businessOther:
+  "radio/tv": "other"
+  "education": "other"
+  "furniture/equiptment": "other"
+  "new car": "other"
+  "used car": "other"
+  "business": "business"
+  "domestic appliance": "other"
+  "repairs": "other"
+  "retraining": "other"
+  "other": "other"
+
+
+# credit amount
+
+# savings status
+greaterSmaller100:
+  "<100": "<100"
+  "100<=X<500": ">=100"
+  "500<=X<1000": ">=100"
+  ">=1000": ">=100"
+
+# employment
+employedUnemployed:
+  "<1": "employed"
+  "1<=X<4": "employed"
+  "4<=X<7": "employed"
+  ">=7": "employed"
+  "unempoloyed": "unemployed"
+
+# installment commitment
+XXXX:
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+
+# personal status
+maleFemale:
+  "male single": "male"
+  "female div/dep/mar": "female"
+  "male div/sep": "male"
+  "male mar/wid": "male"
+
+# other parties
+
+# residence since
+XXXXX:
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+
+# property magnitude
+XXXXX:
+  "real estate": "real estate"
+  "life insurance": "life insurance"
+  "no known property": "no known property"
+  "car": "car"
+
+# age -> bin
+
+
+# other payment plans -> only 3
+
+# housing -> only 3
+
+# existing credits 
+XXXX:
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+
+# job
+XXXX:
+  "skilled": "skilled"
+  "unskilled resident": "unskilled resident"
+  "high qualif/self emp/mgmt": "high qualif/self emp/mgmt"
+  "unemp/unskilled non res": "unemp/unskilled non res" 
+
+# num_dependents -> only 2
+
+# own telephone -> only 2
+
+# foreign worker -> only 2
+
+# class -> target good/bad
