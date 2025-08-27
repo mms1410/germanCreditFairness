@@ -1,6 +1,7 @@
 from germanCreditFairness.data import assert_categories
 
 
+
 def checkingStatus_positiveNegativeNone(data):
     """Merge '0<=X<200' and '>=200' for checking_status into the category 'positive'.
     '<0' will be set to 'negative' and 'no checking will be inherited."""
