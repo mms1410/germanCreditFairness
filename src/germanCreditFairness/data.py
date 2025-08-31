@@ -2,6 +2,12 @@ from sklearn.datasets import fetch_openml
 import pandas as pd
 
 
+def snake_to_camel(snake_string: str) -> str:
+    """Turn snake case string into camel case string."""
+    parts = snake_string.split("_")
+    return parts[0] + "".join(word.capitalize() for word in parts[1:])
+
+
 def get_german_credit():
 
     german_credit = fetch_openml(name="credit-g", version=1, as_frame=True)
@@ -11,6 +17,8 @@ def get_german_credit():
     for column_name in to_category:
         credit[column_name] = credit[column_name].astype("category")
     
+    credit.rename(columns = lambda col: snake_to_camel(col), inplace = True)
+
     return credit
 
 def set_equal(list1:list, list2:list) -> bool:
@@ -27,10 +35,3 @@ def assert_categories(data:pd.DataFrame, column_name:str, expected_categories:li
     actual_categories = list(col_to_check.unique())
     
     assert set_equal(actual_categories, expected_categories), f"Expected categories {expected_categories} but got {actual_categories}."
-
-
-if __name__ == "__main__":
-    data = get_german_credit()
-    credit = data.frame
-    expected_categories = ["<0", "0<=X<200", ">=200", "no checking"]
-    assert_categories(credit, "checking_status", expected_categories)
