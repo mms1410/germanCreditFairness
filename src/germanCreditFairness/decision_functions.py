@@ -30,6 +30,23 @@ def replace_category(data: pd.Series, to_replace:dict) -> pd.Series:
 
 # individual functions
 #---------------------------------------------------------------------------------------------------------
+def age_bin_younger30(data:pd.DataFrame) -> pd.DataFrame:
+    
+    
+    bins = [0, 30, 100]
+    labels = ["young", "old"]
+    data["age"] = pd.cut(data["age"], bins = bins, labels = labels, right = False)
+    
+    return data
+
+def age_bin_younger25(data:pd.DataFrame) -> pd.DataFrame:
+
+    bins = [0,25, 100]
+    labels = ["young", "old"]
+    data["age"] = pd.cut(data["age"], bins = bins, labels = labels, right = False)
+
+    return data
+
 def checkingStatus_bin_positiveNegativeNone(data:pd.DataFrame) -> pd.DataFrame :
     """Merge '0<=X<200' and '>=200' for checkingStatus into the category 'positive'.
     '<0' will be set to 'negative' and 'no checking will be inherited."""
@@ -226,8 +243,8 @@ def covariate_scale(data:pd.DataFrame, covariate_name:str, scale: str):
     elif scale == "standard":
         mean = np.mean(values)
         std = np.std(values)
-        values -= mean
-        values /= std
+        values = values - mean
+        values  = values / std
     else:
         raise ValueError(f"For scaling keyword '{scale}' no implementation exists.")
     
