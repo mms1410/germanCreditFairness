@@ -5,6 +5,10 @@ import inspect
 import yaml
 from itertools import product
 import numpy as np
+from aif360.metrics import  ClassificationMetric
+from aif360.datasets import BinaryLabelDataset
+from sklearn.preprocessing import LabelEncoder
+
 
 
 ROOT = Path(__file__).resolve().parent.parent.parent
@@ -251,3 +255,67 @@ def covariate_scale(data:pd.DataFrame, covariate_name:str, scale: str):
     data[covariate_name] = values
     
     return data
+
+def add_column_value(data: pd.DataFrame, column:str, value) -> pd.DataFrame:
+    
+    new_row = {col: np.nan for col in data.columns}
+    new_row[column] = value
+
+    new_data = pd.concat([data, pd.DataFrame([new_row])], ignore_index= True)
+
+    return new_data
+    
+def evaluate_fairness(X_test, y_test, y_pred,
+                      covariate_protected, privileged_value, unprivileged_value) -> pd.DataFrame:
+
+    test_df = X_test.copy()
+    test_df["class"] = y_test
+
+    # convert category to binary
+    # convention 0 = favorable
+    test_df[covariate_protected] = test_df[covariate_protected].apply(lambda x: 0 if x == privileged_value else 1)
+    for col in test_df.select_dtypes(include = ["object", "category"]).columns:
+        test_df[col] = LabelEncoder().fit_transform(test_df[col])
+
+
+    # Create AIF360 BinaryLabelDataset
+    test_dataset = BinaryLabelDataset(
+        df=test_df,
+        label_names=["class"],
+        protected_attribute_names=[covariate_protected]
+    )
+
+    # Wrap predictions in a BinaryLabelDataset
+    y_pred_array = np.array(y_pred).reshape(-1, 1)
+    pred_dataset = test_dataset.copy()
+    pred_dataset.labels = y_pred_array
+
+    classified_metric = ClassificationMetric(
+        test_dataset,
+        pred_dataset,
+        privileged_groups=[{covariate_protected: 0}],
+        unprivileged_groups=[{covariate_protected: 1}]
+    )
+
+    metrics = {
+        "accuracy": classified_metric.accuracy(),
+        "DI": classified_metric.disparate_impact(),
+        "SPD": classified_metric.statistical_parity_difference(),
+        "EOD": classified_metric.equal_opportunity_difference(),
+        "AOD": classified_metric.average_odds_difference(),
+        "Theil": classified_metric.theil_index()
+    }
+
+    # Convert to DataFrame
+    metrics_df = pd.DataFrame([metrics])
+    return metrics_df
+
+def no_metrics() -> pd.DataFrame:
+
+    dictionary = {"accuracy": np.nan,
+                  "DI": np.nan,
+                  "SPD": np.nan,
+                  "EOD": np.nan,
+                  "AOD": np.nan,
+                  "Theil": np.nan}
+    return pd.DataFrame([dictionary])
